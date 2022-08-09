@@ -6,7 +6,7 @@ from string import *
 def filtr_uniq(spisok):
     'получение уникального списка'
     spisok_uniq =[]
-    for x in xrange(0,len(spisok)):
+    for x in range(0,len(spisok)):
         if spisok_uniq.count(spisok[x])<1:
             spisok_uniq.append(spisok[x])
     return spisok_uniq
@@ -24,7 +24,7 @@ def spiski(folder_name):
     spisok_object = os.listdir(folder_name)
     
     #Формирование начальных списков папок файлов и т.д.
-    for x in  xrange(0,len(spisok_object)):
+    for x in range(0,len(spisok_object)):
         mode = os.stat(folder_name+'/'+spisok_object[x])[ST_MODE]
         if S_ISDIR(mode):
             spisok_folders.append(folder_name+'/'+spisok_object[x])
@@ -37,12 +37,12 @@ def spiski(folder_name):
     p=0
     while p < subfolders :
         #Цикл перебора папок в списке папок для извлечения информации о файлах и папках
-        for x in xrange(0,len(spisok_folders)):
+        for x in range(0,len(spisok_folders)):
             folder_name = spisok_folders[x]
             spisok_object = os.listdir(folder_name)
             
             #Цикл опознания объекта
-            for y in  xrange(0,len(spisok_object)):
+            for y in  range(0,len(spisok_object)):
                 mode = os.stat(folder_name+'/'+spisok_object[y])[ST_MODE]   
                 #добавление папок
                 if S_ISDIR(mode):
@@ -80,9 +80,9 @@ def create_las_file_lists(spisok_all):
     spisok_files_all = []
     
     
-    for x in xrange(0,len(spisok_uniq_files)):
+    for x in range(0,len(spisok_uniq_files)):
         #Чтение одного из файлов
-        read_las = open(spisok_uniq_files[x], "rb")
+        read_las = open(spisok_uniq_files[x], "r")
         spisok_strings_in_file = read_las.readlines()
         read_las.close
 
@@ -92,24 +92,25 @@ def create_las_file_lists(spisok_all):
         wrap_line = []
 
         #Поиск начала раздела с данными о версии и свертки
-        for y in xrange(0, len(spisok_strings_in_file)):
-            if spisok_strings_in_file[y].startswith('~V') == 1 :
+        for y in range(len(spisok_strings_in_file)):
+               print(spisok_strings_in_file[y])
+               if spisok_strings_in_file[y].startswith('~V') == 1 :
                 version_information_position = y
         #получение строк с разверткой и версией las из считанного файла при условии что блок версии ~version information найден
-        if version_information_position  <> 'novalue':          
-            for y in xrange (version_information_position, len(spisok_strings_in_file)):
-                if ((strip(spisok_strings_in_file[y]).startswith('VERS') == 1)or (strip(spisok_strings_in_file[y]).startswith('Vers') == 1)):
+        if version_information_position  != 'novalue':
+            for y in range (version_information_position, len(spisok_strings_in_file)):
+                if (spisok_strings_in_file[y].strip().startswith('VERS') == 1) or (spisok_strings_in_file[y].strip().startswith('Vers') == 1):
                     version_line = spisok_strings_in_file[y]
-                if (strip(spisok_strings_in_file[y]).startswith('WRAP') == 1) :
+                if (spisok_strings_in_file[y].strip().startswith('WRAP') == 1) :
                     wrap_line = spisok_strings_in_file[y]   
                 if spisok_strings_in_file[y+1].startswith('~') == 1 :
                     break
         #получение значения версии файла при условии что строка версии не равна пустой строке
-        if version_line <> []:
+        if version_line != []:
             version_line_lenght=len(version_line)
             mesto_pervoi_tochki=str(version_line).find('.')
             mesto_dvoetochiya=str(version_line).find(':')
-            vers = strip(str(version_line)[mesto_pervoi_tochki+1:mesto_dvoetochiya])
+            vers = str(version_line)[mesto_pervoi_tochki+1:mesto_dvoetochiya].strip()
         #Запись пути к файлу в список для версии 1.2
         if ((vers == '1.20') or (vers == '1.2')) : las_12_version_list.append(spisok_uniq_files[x])
         #Запись пути к файлу в список для версии 2.0
@@ -141,27 +142,27 @@ def print_files_stat_in_file(report_file, spisok_all,spisok_files_all):
     report.write('FOLDERS:'+str(len(spisok_uniq_folders))+'\n')
     if len(spisok_uniq_folders) == 0 : report.write('--EMPTY--'+'\n')
     else :
-        for x in xrange (0,len(spisok_uniq_folders)):
-            report.write(spisok_uniq_folders[x].encode('cp', 'replace')+'\n')    
+        for x in range (0,len(spisok_uniq_folders)):
+            report.write(spisok_uniq_folders[x]+'\n')
     #Запись в файл колличества файлов и их пути или EMPTY в случае если файлов нет   
     report.write('FILES:'+str(len(spisok_uniq_files))+'\n')
     if len(spisok_uniq_files) == 0 : report.write('--EMPTY--'+'\n')
     else :
-        for x in xrange (0,len(spisok_uniq_files)):
-            print spisok_uniq_files[x]
-            report.write(spisok_uniq_files[x].encode('utf-8', 'replace')+'\n')
+        for x in range (0,len(spisok_uniq_files)):
+            print(spisok_uniq_files[x])
+            report.write(spisok_uniq_files[x]+'\n')
     #Запись в файл колличества лас файлов 1.2 и их пути или EMPTY в случае если файлов нет
     report.write('Las_files 1.20:'+str(len(las_12_version_list))+'\n')
     if len(las_12_version_list) == 0 : report.write('--EMPTY--'+'\n')
     else :
-        for x in xrange (0,len(las_12_version_list)):
-            report.write(unicode(las_12_version_list[x]).encode('utf-8', 'replace')+'\n')
+        for x in range (0,len(las_12_version_list)):
+            report.write(las_12_version_list[x]+'\n')
     #Запись в файл колличества лас файлов 2.0 и их пути или EMPTY в случае если файлов нет       
     report.write('Las_files 2.00:'+str(len(las_20_version_list))+'\n')
     if len(las_20_version_list) == 0 : report.write('--EMPTY--'+'\n')
     else :
-        for x in xrange (0,len(las_20_version_list)):
-            report.write(las_20_version_list[x].encode('utf-8', 'replace')+"\n")
+        for x in range (0,len(las_20_version_list)):
+            report.write(las_20_version_list[x]+"\n")
     #Запись в файл колличества нераспознанных файлов и их пути или EMPTY в случае если файлов нет       
     report.write('Not recognized files:'+str(len(not_recognized_list))+'\n')
     if len(not_recognized_list) == 0 : report.write('--EMPTY--'+'\n')
@@ -187,8 +188,8 @@ def spiski_fayla(folder_name, report_file):
 
 
 #DATA FOR TEST
-report_file = 'C:/Python26/1/Results/good_riddance'
-folder_name = 'C:/Python26/1/Workя'
+report_file = './Results/good_riddance'
+folder_name = './ishoniy'
 spiski_fayla(folder_name, report_file)
 
     

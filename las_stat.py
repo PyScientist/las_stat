@@ -47,8 +47,8 @@ def index_main(folder_name, report_file, results_file):
     write_results_in_file(vihodnoy_massiv, results_file)
 
 #DATA FOR TEST      
-folder_name = ('C:/Python26/1/Work').decode('utf-8', 'replace')
-print folder_name
+folder_name = './ishoniy'
+print(folder_name)
 report_file = u'C:/Python26/1/Results/good_riddance'
 results_file = u'C:/Python26/1/Results/good_results.txt'
 index_main(folder_name, report_file, results_file)

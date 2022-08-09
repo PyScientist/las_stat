@@ -26,7 +26,7 @@ def single_block(position, strings_in_file):
     'Сборка сектора данных данных'
     #Получение сектора без строк коментариев и строк начина.щихся на ~
     data_block = []
-    if (position)<>'Novalue': 
+    if (position)!='Novalue':
         for x in xrange(position+1, len(strings_in_file)) :
             if strings_in_file[x].startswith("~") == 0:
                 if strings_in_file[x].startswith("#") == 0:
@@ -235,7 +235,7 @@ def logs_stat_obtain(version, data_information_block, curve_information_block, n
                 if (data_unit == '1.#INF') or (data_unit == '-1.#INF') or (data_unit == '-1.#IND') or (data_unit == '1.#IND'):
                     data_unit = null_parametr
                                   
-                if float(data_unit) <> float(null_parametr):
+                if float(data_unit) != float(null_parametr):
                     summ = float(data_unit)+summ
                     count = count+1
                     averege = summ/count

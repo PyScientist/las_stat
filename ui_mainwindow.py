@@ -53,6 +53,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.proccess_folder_button.setText(QtGui.QApplication.translate("MainWindow", "Set folder to proccess", None, QtGui.QApplication.UnicodeUTF8))
-        self.results_folder_button.setText(QtGui.QApplication.translate("MainWindow", "Set results folder", None, QtGui.QApplication.UnicodeUTF8))
+        self.results_folder_button.setText(QtGui.QApplication.translate("MainWindow", "Set Results folder", None, QtGui.QApplication.UnicodeUTF8))
         self.run_button.setText(QtGui.QApplication.translate("MainWindow", "RUN", None, QtGui.QApplication.UnicodeUTF8))
 
